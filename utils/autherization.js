@@ -6,11 +6,11 @@ export const isAdmin = async (req, res, next) => {
     //finding the user of the id
     const user = await Users.findOne({ _id: id });
 
-    if (!user) {
-        return res.status(401).send(`Admin resource. Access denied`);
+    if (user.role === 1) {
+        next();
     }
+    return res.status(401).send(`Admin resource. Access denied`);
 
-    next();
 }
 
 export const isUser = async (req, res, next) => {

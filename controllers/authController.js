@@ -40,11 +40,9 @@ export const signin = async (req, res) => {
                 //if exists validate password
                 const isValideUser = await bcrypt.compare(password, existingUser.hashedPassword);
                 if (isValideUser) {
-                    //if true login -> using jwt - cookies(1day value)
+                    //if true login -> using jwt 
                     const token = jwt.sign({ _id: existingUser._id }, process.env.SECRET_KEY);
-                    res.cookie("accessToken", token, { expire: new Date() + 8640000000 });
-
-                    return res.status(201).send({ message: `User signed-in successful` });
+                    return res.status(201).send({ message: `User signed-in successful`, "accessToken": token });
                 }
                 //else false error
                 return res.status(400).send({ message: `Invalid credentials.` })
@@ -60,7 +58,6 @@ export const signin = async (req, res) => {
 //Signout
 export const signout = async (req, res) => {
     try {
-        await res.clearCookie("accessToken");
         res.status(200).send({ message: `signed-out successfully` });
     } catch (error) {
         res.status(500).send(`Internal server error: ${error}`);
@@ -83,16 +80,18 @@ export const forgotPassword = async (req, res) => {
             return res.status(400).send({ message: `user doesn't exist. You can register` });
         }
 
+        //If token already exists delete it
         const token = await Tokens.findOne({ userId: user._id });
-
         if (token) {
             await token.deleteOne();
         }
+
         //Generating token
         const newToken = jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
         //Hashing the token
         const hashedToken = await bcrypt.hash(newToken, 10);
 
+        //storing token to DB
         const tokenPayload = new Tokens({ userId: user._id, token: hashedToken, createdAt: Date.now() });
         await tokenPayload.save();
 

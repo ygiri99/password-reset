@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 
 export const sendMail = async (email, subject, payload) => {
-    console.log(`sendinf mail...`);
 
     try {
         let transporter = nodemailer.createTransport({
@@ -20,6 +19,7 @@ export const sendMail = async (email, subject, payload) => {
             text: JSON.stringify(payload)
         }
 
+        //Sending the link to email
         await transporter.sendMail(mailOptions, (err, data) => {
             if (err) {
                 console.log(`Error in sendEmail: ${err}`);

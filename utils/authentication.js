@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 
 export const isAuth = async (req, res, next) => {
-    const { cookies } = req;
-    //Verifing cookie
-    if (cookies.accessToken) {
-        let user = jwt.verify(cookies.accessToken, process.env.SECRET_KEY);//Decryption
+
+    const { authToken } = req.body;
+    //Checking token for Authentication
+    if (authToken) {
+        let user = jwt.verify(authToken, process.env.SECRET_KEY);//Decryption token
         req.id = user._id;
 
         if (!req.id) {
