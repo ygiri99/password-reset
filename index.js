@@ -8,7 +8,7 @@ import authRouter from "./routes/authRoutes.js";
 
 
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true, origin: "https://password-reset-berg.onrender.com" }));
 app.use(express.json());
 app.use(cookieParser());
 
