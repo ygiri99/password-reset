@@ -96,7 +96,7 @@ export const forgotPassword = async (req, res) => {
         await tokenPayload.save();
 
         //Creating link
-        const link = `https://peaceful-licorice-e9f0cc.netlify.app/resetPassword?token=${newToken}&id=${user._id}`;
+        const link = `https://chipper-malasada-dbb91e.netlify.app/resetPassword?token=${newToken}&id=${user._id}`;
 
         //Sending link to the Email
         await sendMail(user.email, "Reset password link", { name: user.name, link: link });
