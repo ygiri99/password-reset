@@ -8,11 +8,7 @@ import authRouter from "./routes/authRoutes.js";
 
 
 const app = express();
-<<<<<<< HEAD
 app.use(cors({ credentials: true, origin: "https://chipper-malasada-dbb91e.netlify.app/" }));
-=======
-app.use(cors({ credentials: true, origin: "https://peaceful-licorice-e9f0cc.netlify.app" }));
->>>>>>> 75496518dcce8152f2f05c28909ea2144b1930b0
 app.use(express.json());
 app.use(cookieParser());
 
